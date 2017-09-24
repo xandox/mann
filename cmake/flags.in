@@ -1,0 +1,4 @@
+{
+"flags": "-I$<JOIN:$<TARGET_PROPERTY:${tname},INCLUDE_DIRECTORIES>, -I> -D$<JOIN:$<TARGET_PROPERTY:${tname},COMPILE_DEFINITIONS>, -D> -std=c++$<TARGET_PROPERTY:${tname},CXX_STANDARD> -x c++",
+"files": ""
+}

@@ -1,0 +1,26 @@
+set(_mann_head_hash)
+
+file(READ "@HEAD_FILE@" _mann_head_contents LIMIT 1024)
+
+string(STRIP "${_mann_head_contents}" _mann_head_contents)
+if(_mann_head_contents MATCHES "ref")
+    # named branch
+    string(REPLACE "ref: " "" _mann_head_ref "${_mann_head_contents}")
+    if(EXISTS "@GIT_DIR@/${_mann_head_ref}")
+        configure_file("@GIT_DIR@/${_mann_head_ref}" "@GIT_DATA@/head-ref" COPYONLY)
+    else()
+        configure_file("@GIT_DIR@/packed-refs" "@GIT_DATA@/packed-refs" COPYONLY)
+        file(READ "@GIT_DATA@/packed-refs" _mann_packed_refs)
+        if(${_mann_packed_refs} MATCHES "([0-9a-z]*) ${_mann_head_ref}")
+            set(_mann_head_hash "${CMAKE_MATCH_1}")
+        endif()
+    endif()
+else()
+    # detached HEAD
+    configure_file("@GIT_DIR@/HEAD" "@GIT_DATA@/head-ref" COPYONLY)
+endif()
+
+if(NOT _mann_head_hash)
+    file(READ "@GIT_DATA@/head-ref" _mann_head_hash LIMIT 1024)
+    string(STRIP "${_mann_head_hash}" _mann_head_hash)
+endif()

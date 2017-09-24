@@ -1,0 +1,5 @@
+
+set(MANN_BASE_NAMESPACE MyProject)
+set(MANN_INCLUDE_DIR_NAME include)
+set(MANN_SOURCES_DIR_NAME src)
+set(MANN_TESTS_DIR_NAME tests)
